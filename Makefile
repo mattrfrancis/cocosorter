@@ -1,6 +1,6 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
-VERILOG_SOURCES = counter.sv
-TOP_LEVEL = counter_module
+VERILOG_SOURCES = bitonic.sv
+TOP_LEVEL = bitonic_sorter
 MODULE = testbench
 include $(shell cocotb-config --makefiles)/Makefile.sim
