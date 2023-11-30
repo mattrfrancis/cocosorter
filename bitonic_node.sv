@@ -1,7 +1,6 @@
-module bnode(clk, data_in, data_out, polarity);
+module bnode(clk, data_in, data_out);
 
 input clk;
-input polarity;
 input [8*2-1:0] data_in;
 output [8*2-1:0] data_out;
 
@@ -15,15 +14,11 @@ assign data_b = data_in[7-:8];
 assign comp = data_a < data_b;
 assign data_out = sorted_data;
 
-reg [15:0] sorted_data;
+logic [15:0] sorted_data;
 
-always @(posedge clk) begin
+always_comb begin
 
-	if(polarity) begin
-		sorted_data = comp ? {data_b, data_a} : {data_a, data_b};
-	end else begin
-		sorted_data = comp ? {data_a, data_b} : {data_b, data_a};
-	end
+	sorted_data = comp ? {data_a, data_b} : {data_b, data_a};
 
 end
 
