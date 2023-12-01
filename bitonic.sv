@@ -1,5 +1,5 @@
 module bitonic_top
-#(parameter NUM_INPUT = 8, DATA_WIDTH = 8)
+#(parameter NUM_INPUT = 16, DATA_WIDTH = 8)
 (clk, reset, data_in, valid, done, data_out);
 
 input clk;

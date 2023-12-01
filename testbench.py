@@ -21,20 +21,20 @@ async def basic_timing_test(dut):
 	# Release reset and init values
 	dut.reset.value = 0
 	dut.valid.value = 1;
-	dut.data_in.value = BinaryValue(value = 0, n_bits = 64, bigEndian = False)
+	dut.data_in.value = BinaryValue(value = 0, n_bits = 128, bigEndian = False)
 	await RisingEdge(dut.clk)
 	dut.valid.value = 0;
 
-	# If there are 8 inputs there should be six delays
+	# If there are 16 inputs there should be 10 delays
 
-	for _ in range(6):
+	for _ in range(10):
 		await RisingEdge(dut.clk)
 	#await RisingEdge(dut.done)
 
 	assert dut.done.value == 1, "done is not asserted!"
 	
 @cocotb.test()
-async def basic_add(dut):
+async def basic_sort(dut):
 	
 	# Setup
 	cocotb.start_soon(Clock(dut.clk, 1, units = "ns").start())
@@ -47,7 +47,7 @@ async def basic_add(dut):
 	# Release reset and init values
 	dut.reset.value = 0
 	dut.valid.value = 1;
-	dut.data_in.value = BinaryValue(value = 0x0107041428198003, n_bits = 64, bigEndian = False)
+	dut.data_in.value = BinaryValue(value = 0x01070414281980030000000000000000, n_bits = 128, bigEndian = False)
 	await RisingEdge(dut.clk)
 	dut.valid.value = 0;
 
@@ -57,7 +57,7 @@ async def basic_add(dut):
 	# On top of that each 32 bits are added to twice
 	# On top of that each 64 bits are added to once
 
-	for _ in range(6):
+	for _ in range(10):
 		await RisingEdge(dut.clk)
 	assert dut.done.value == 1, "done is not asserted!"
-	assert dut.data_out.value == 0x8028191407040301
+	assert dut.data_out.value == 0x80281914070403010000000000000000
