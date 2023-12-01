@@ -23,6 +23,7 @@ wire [STAGES:0] stage_ready;
 assign stage_data[0] = data_in;
 assign stage_ready[0] = valid;
 assign done = stage_ready[STAGES] == 1;
+assign data_out = stage_data[STAGES];
 
 genvar i_stage;
 genvar i_block;
@@ -44,7 +45,7 @@ generate for(i_stage = 0; i_stage < STAGES; i_stage = i_stage + 1) begin : stage
 		assign block_in = stage_data[i_stage][BLOCK_DWIDTH*(i_block+1)-1-:BLOCK_DWIDTH];
 		assign stage_data[i_stage+1][BLOCK_DWIDTH*(i_block+1)-1-:BLOCK_DWIDTH] = block_out;
 
-		bitonic_block #(.DATA_WIDTH(DATA_WIDTH), .BLOCK_DEPTH(BLOCK_DEPTH)) blk_const (.clk(clk), .reset(reset), .data_in(block_in), .data_out(block_out), .done(blks_done[i_block]), .valid(stage_ready[i_block]));
+		bitonic_block #(.DATA_WIDTH(DATA_WIDTH), .BLOCK_DEPTH(BLOCK_DEPTH)) blk_const (.clk(clk), .reset(reset), .data_in(block_in), .data_out(block_out), .done(blks_done[i_block]), .valid(stage_ready[i_stage]));
 		
 	end
 
