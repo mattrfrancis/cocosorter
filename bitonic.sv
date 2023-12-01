@@ -22,7 +22,7 @@ wire [STAGES:0] stage_ready;
 
 assign stage_data[0] = data_in;
 assign stage_ready[0] = valid;
-assign done = stage_ready[STAGES];
+assign done = stage_ready[STAGES] == 1;
 
 genvar i_stage;
 genvar i_block;
