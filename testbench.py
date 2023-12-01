@@ -51,9 +51,13 @@ async def basic_add(dut):
 	await RisingEdge(dut.clk)
 	dut.valid.value = 0;
 
-	# The input is 0 and each block will add 1 to each of its split inputs
-	# So the final value should be 0x0000001000000300000010000006
+	# The input is 0 and each block/node will add 1 to each of its split inputs
+	# So the final value should be 0x0003000500030006
+	# Because each 16 bits are added to thrice
+	# On top of that each 32 bits are added to twice
+	# On top of that each 64 bits are added to once
+
 	for _ in range(6):
 		await RisingEdge(dut.clk)
 	assert dut.done.value == 1, "done is not asserted!"
-	assert dut.data_out.value == 281487861678086
+	assert dut.data_out.value == 0x0003000500030006
