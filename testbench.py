@@ -47,7 +47,7 @@ async def basic_add(dut):
 	# Release reset and init values
 	dut.reset.value = 0
 	dut.valid.value = 1;
-	dut.data_in.value = BinaryValue(value = 0, n_bits = 64, bigEndian = False)
+	dut.data_in.value = BinaryValue(value = 0x0107041428198003, n_bits = 64, bigEndian = False)
 	await RisingEdge(dut.clk)
 	dut.valid.value = 0;
 
@@ -60,4 +60,4 @@ async def basic_add(dut):
 	for _ in range(6):
 		await RisingEdge(dut.clk)
 	assert dut.done.value == 1, "done is not asserted!"
-	assert dut.data_out.value == 0x0003000500030006
+	assert dut.data_out.value == 0x8028191407040301

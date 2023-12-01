@@ -1,5 +1,5 @@
 module bitonic_block
-#(parameter DATA_WIDTH = 8, BLOCK_DEPTH = 1)
+#(parameter DATA_WIDTH = 8, BLOCK_DEPTH = 1, POLARITY = 0)
 (clk, reset, data_in, valid, done, data_out);
 
 input clk;
@@ -43,7 +43,7 @@ generate for(i_bstage = 0; i_bstage < BLOCK_DEPTH; i_bstage = i_bstage + 1) begi
 		assign node_data_in = bstage_outs[i_bstage][NODE_DWIDTH*(i_node+1)-1-:NODE_DWIDTH];
 		wire [NODE_DWIDTH-1:0] node_data_out;
 		
-		bitonic_node #(.DATA_WIDTH(DATA_WIDTH), .NODE_ORDER(n_nodes - i_node), .NODE_DWIDTH(NODE_DWIDTH)) node_constr (.clk(clk), .reset(reset), .valid(bstage_ready[i_bstage]), .data_in(node_data_in), .done(nodes_ready[i_node]), .data_out(node_data_out));
+		bitonic_node #(.DATA_WIDTH(DATA_WIDTH), .NODE_ORDER(BLOCK_DEPTH - i_bstage), .NODE_DWIDTH(NODE_DWIDTH), .POLARITY(POLARITY)) node_constr (.clk(clk), .reset(reset), .valid(bstage_ready[i_bstage]), .data_in(node_data_in), .done(nodes_ready[i_node]), .data_out(node_data_out));
 
 		assign bstage_outs[i_bstage+1][NODE_DWIDTH*(i_node+1)-1-:NODE_DWIDTH] = node_data_out;
 
